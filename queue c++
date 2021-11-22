@@ -1,0 +1,138 @@
+#include<iostream>
+#include <string>
+using namespace std;
+class que{
+    private:
+    int rear;
+    int front;
+    int arr[5];
+    public:
+    que(){
+        front =-1;
+        rear = -1;
+        for(int i=0;i<5;i++){
+            arr[i]=0;
+        }
+    }
+    bool isempty(){
+        if(front==-1 && rear ==-1){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+    bool isfull(){
+        if(rear==4){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    void enque(int val){
+        if(isfull()){
+            cout<<"que is full"<<endl;
+        }
+        else if(isempty()){
+        rear =0;
+        front =0;
+        arr[rear]=val;
+        }
+        else{
+            rear++;
+            arr[rear]=val;
+        }
+    }
+    int deque(){
+        int x;
+        if(isempty()){
+            cout<<"this is an empty aue"<<endl;
+        }else if(front==rear){
+            x=arr[front];
+            arr[front]=0;
+            front=-1;
+            rear=-1;
+            return x;
+
+        }
+        else{
+            x=arr[front];
+            arr[front]=0;
+            front++;
+            return 0;
+        }
+    }
+    int count (){
+        return (rear-front+1);
+    }
+    void display(){
+        cout<<"values are"<<endl;
+        for(int i=0;i<5;i++){
+            cout<<arr[i]<<endl;
+        }
+    }
+
+};
+int main(){
+    que q1;
+    int op,value;
+    do{
+        cout<<"what operation do u want to run , 0 to exit the loop"<<endl;
+        cout<<"1.que"<<endl;
+        cout<<"2.deque()"<<endl;
+        cout<<"3.isempty()"<<endl;
+        cout<<"4.isfull()"<<endl;
+        //cout<<"5.peek()"<<endl;
+        cout<<"5.coutn()"<<endl;
+        //cout<<"7.change()"<<endl;
+        cout<<"6.display()"<<endl;
+        cout<<"7.clear screen"<<endl<<endl;
+        cin>>op;
+        switch(op)
+        {
+            case 1:
+            cout<<"enter that item"<<endl;
+            cin>>value;
+            q1.enque(value);
+           
+            break;
+            case 2:
+            cout<<q1.deque()<<endl;
+            
+            break;
+            case 3:
+            if(q1.isempty()){
+                cout<<"empty"<<endl;
+            }else{
+                cout<<"notempty"<<endl;
+            }
+            
+            break;
+            case 4:
+            if(q1.isfull()){
+                cout<<"full"<<endl;
+            }else{
+                cout<<"notfull"<<endl;
+            }
+           
+            break;
+            case 5:
+            cout<<q1.count()<<endl;
+            break;
+            case 6:
+            q1.display();
+            
+            break;
+
+            default:
+            cout<<"enter the proper func"<<endl;
+            
+
+
+
+        }
+
+
+    }while (op!=0);
+    return 0;
+}
