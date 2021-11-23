@@ -1,0 +1,210 @@
+#include<iostream>
+using namespace std;
+class node{
+    public:
+    int key;
+    int data;
+    node* next;
+    node(){
+        key=0;
+        data=0;
+        next=NULL;
+    }
+    node(int k,int d){
+        key=k;
+        data=d;
+    }
+
+};
+class sinlin{
+    public:
+    node* head;
+    sinlin(){
+        head=NULL;
+    }
+    sinlin(node *n){
+        head=n;
+    }//check if the node exists in the single linked list 
+    node* nodeex(int k){
+        node* temp = NULL;
+        node* ptr=head;
+        while(ptr!=NULL){
+            if(ptr->key==k){
+                temp=ptr;
+            }
+            ptr=ptr->next;
+        }
+        return temp;
+    }
+    //append a node to a list at the end
+    void append(node *n){
+        if(nodeex(n->key)!=NULL){
+            cout<<"node already is present in the linked list "<<endl;
+
+        }else{
+            if(head==NULL){
+                head=n;
+                cout<<"node appended"<<endl;
+            }else{
+                node* ptr=head;
+                while(ptr->next!=NULL){
+                    ptr=ptr->next;
+                }
+                ptr->next=n;
+                cout<<"node appended"<<endl;
+            }
+        }
+    }
+    //add a node at the beggining of the list
+    void prepend(node *n){
+        if(nodeex(n->key)!=NULL){
+            cout<<"node already is present in the linked list "<<endl;
+        }
+        else{
+            n->next=head;
+            head=n;
+            cout<<"node is prepended"<<endl;
+        }
+    }
+    //iserting a node after a certain node or a position;
+    void insert(int k, node *n){
+        node *ptr=nodeex(k);
+        if(ptr==NULL){
+            cout<<"no node exist with the key value "<<k<<endl;
+        }else{
+            if(nodeex(n->key)!=NULL){
+                cout<<"node already exists int the list"<<endl;
+            }
+            else{
+                n->next=ptr->next;
+                ptr->next=n;
+                cout<<"the node got inserted"<<endl;
+            }
+        }
+    }
+    //delete node by unique key
+    void deleten(int k){
+        if(head==NULL){
+            cout<<"there is nothing to delete in this list bro"<<endl;
+        }else if(head!=NULL){
+            if(head->key==k){
+                head=head->next;
+                cout<<"the node got unlinked with the keys vlaue "<<k<<endl;
+            }
+            else{
+                node* temp=NULL;
+                node* prevptr= head;
+                node* currentptr = head->next;
+                while(currentptr !=NULL){
+                    if(currentptr->key==k){
+                        temp= currentptr;
+                        currentptr=NULL;
+                    }else{
+                        prevptr=prevptr->next;
+                        currentptr=currentptr->next;
+                    }
+                }
+                if(temp!=NULL){
+                    prevptr->next=temp->next;
+                    cout<<"node got unlinked with the key values of the node "<<endl;
+
+                }else{
+                    cout<<"node dosent exist in the given list"<<endl;
+                }
+
+            }
+        }
+    }
+    //update node 
+    void updaten(int k,int d){
+        node* ptr = nodeex(k);
+        if(ptr!=NULL){
+            ptr->data=d;
+            cout<<"the data has been updated in the list"<<endl;
+
+        }else{
+            cout<<"node which u enterd doesnt exist with the key value which u have given"<<endl;
+
+        }
+    }
+    void printn(){
+        if(head==NULL){
+            cout<<"there are no nodes in the singled linked list "<<endl;
+
+        }else{
+            cout<<"the values of the singled linked list are "<<endl;
+            node* temp=head;
+            while(temp!=NULL){
+                cout<<"("<<temp->key<<" ,"<<temp->data<<")-->";
+                temp=temp->next;
+            }
+        }
+    }
+
+
+};
+int main(){
+    sinlin s;
+    int option;
+    int key1,k1,data1;
+    do{
+        cout<<"enter the number which u need to perform "<<endl;
+        cout<<"1.append "<<endl;
+        cout<<"2.prepend"<<endl;
+        cout<<"3.insert "<<endl;
+        cout<<"4.delete "<<endl;
+        cout<<"5.updatae"<<endl;
+        cout<<"6.print "<<endl;
+        cin>>option;
+        node* n1= new node();
+        switch(option){
+            case 0:
+            break;
+            case 1:
+            cout<<"append so enter the info u want to enter into the list"<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            s.append(n1);
+            break;
+            case 2:
+            cout<<"prepend node "<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            s.prepend(n1);
+            break;
+            case 3:
+            cout<<"insert node "<<endl;
+            cin>>k1;
+            cout<<"enter the data of new node "<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            s.insert(k1,n1);
+            break;
+            case 4:
+            cout<<"delete operation using the key "<<endl;
+            cin>>k1;
+            s.deleten(k1);
+            break;
+            case 5:
+            cout<<"update or change using the key "<<endl;
+            cin>>key1;
+            cin>>data1;
+            s.updaten(key1,data1);
+            break;
+            case 6:
+            s.printn();
+            break;
+            default:
+            cout<<"eneter the correct number"<<endl;
+        }
+
+    }while(option!=0);
+
+    return 0;
+}
