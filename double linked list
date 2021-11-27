@@ -1,0 +1,235 @@
+#include<iostream>
+using namespace std;
+class node{
+    public :
+    int key;
+    int data;
+    node* next;
+    node* prev;
+    node(){
+        key =0;
+        data=0;
+        next = NULL;
+        prev=NULL;
+    }
+    node(int k,int d){
+        key = k;
+        data=d;
+    }
+
+
+
+};
+class doub{
+    public:
+    node* head;
+    doub(){
+        head=NULL;
+    }doub(node* n){
+        head=n;
+    }
+    //1.check if node exist
+    node* check(int k){
+        node* temp =  NULL;
+        node* ptr= head;
+        while(ptr!=NULL){
+            if(ptr->key==k){
+                temp=ptr;
+            }
+            ptr=ptr->next;
+        }
+        return temp;
+    }
+    //2.append node to list
+    void appendn(node* n){
+        if(check(n->key)!=NULL){
+            cout<<"node already exist with the key value which u have sent "<<endl;
+        }else{
+            if(head==NULL){
+                head=n;
+                cout<<"node is now appended"<<endl;
+            }else{
+                node* ptr=head;
+                while(ptr->next!=NULL){
+                    ptr=ptr->next;
+                }
+                ptr->next=n;
+                n->prev=ptr;
+                cout<<"node is now appended"<<endl;
+            }
+        }
+    }
+    //.prepend the node
+    void prependn(node* n){
+        if(check(n->key)!=NULL){
+            cout<<"node is already in the given double linked list so u cant add ur node at the begining of the double linked list"<<endl;
+
+        }else{
+            if(head==NULL){
+                head=n;
+                cout<<"node preponed as the head node"<<endl;
+
+            }else{
+                head->prev=n;
+                n->next=head;
+                head=n;
+                cout<<"node is now prepended"<<endl;
+
+            }
+        }
+
+
+    }
+    //3.insert the node at a position
+    void insertn(int k, node* n){
+        node* ptr= check(k);
+        if(ptr==NULL){
+            cout<<"no node is present with the key value which yoou have entered"<<endl;
+
+        }else{
+            if(check(n->key)!=NULL){
+                cout<<"node already present with the key value"<<endl;
+
+            }else{
+                cout<<"inserting"<<endl;
+                node* nextn=ptr->next;
+                if(nextn==NULL){
+                    ptr->next=n;
+                    n->prev=ptr;
+                    cout<<"node has been inserted at the location needed"<<endl;
+
+                }else{
+                    n->next=nextn;
+                    nextn->prev=n;
+                    n->prev=ptr;
+                    ptr->next=n;
+                    cout<<"the node has beeen inserted at the place between two nodes"<<endl;
+                }
+            }
+            
+
+        }
+    }
+    //5.delete the node by using the key
+    void dele(int k){
+        node* ptr=check(k);
+        if(ptr==NULL){
+            cout<<"no node is existing in the list with the key which you have sent"<<endl;
+
+        }else{
+            if(head->key==k){
+                head=head->next;
+                cout<<"node has been unlinked with the list"<<endl;
+            }else{
+                node* nextn=ptr->next;
+                node* prevn=ptr->prev;
+                //if need to delete at the end of the list
+                if(nextn==NULL){
+                    prevn->next=NULL;
+                    cout<<"the last node has been unlinked"<<endl;
+
+                }else{
+                    prevn->next=nextn;
+                    nextn->prev=prevn;
+                    cout<<"the node between has been now unlinked with the list"<<endl;
+
+                }
+            }
+        }
+    }
+    //6.update
+    void updaten(int k, int d){
+        node* ptr= check(k);
+        if(ptr!=NULL){
+            ptr->data=d;
+            cout<<"now the node data is perfectly updated from the list"<<endl;
+
+        }else{
+            cout<<"the node with the key you requested is not presrnt in the llist"<<endl;
+
+        }
+
+    }
+    //7.printing
+    void printn(){
+        if(head==NULL){
+            cout<<"still the node is empty click 1 to add a node to the list"<<endl;
+
+        }else{
+            cout<<endl<<"the values of the double linked list :"<<endl;
+            node* temp= head;
+            while(temp!=NULL){
+                cout<<"("<<temp->key<<","<<temp->data<<")<-->"<<endl;
+                temp=temp->next;
+            }
+
+            
+        }
+    }
+};
+int main(){
+    doub obj;
+    int option;
+    int key1,k1,data1;
+    do{
+        cout<<"select the work you need to perform "<<endl;
+        cout<<"1.append"<<endl;
+        cout<<"2.prepend"<<endl;
+        cout<<"3.insert"<<endl;
+        cout<<"4.delete"<<endl;
+        cout<<"5.update"<<endl;
+        cout<<"6.print"<<endl;
+        cin>>option;
+        node* n1= new node();
+        switch(option){
+            case 0:
+            break;
+            case 1:
+            cout<<"append so now enter the key and the data"<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            obj.appendn(n1);
+            break;
+            case 2:
+            cout<<"prepend"<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            obj.prependn(n1);
+            break;
+            case 3:
+            cout<<"insert the node in between"<<endl;
+            cin>>k1;
+            cout<<"now enter the data and the key which you need to add"<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            obj.insertn(k1,n1);
+            break;
+            case 4:
+            cout<<"delete the node by using the key of that node"<<endl;
+            cin>>k1;
+            obj.dele(k1);
+            break;
+            case 5:
+            cout<<"update the node by the key "<<endl;
+            cin>>key1;
+            cin>>data1;
+            obj.updaten(key1,data1);
+            break;
+            case 6:
+            obj.printn();
+            break;
+            default:
+            cout<<"enter the proper number "<<endl;
+
+
+
+        }
+    }while(option!=0);
+    return 0;
+}
