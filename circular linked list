@@ -1,0 +1,248 @@
+#include<iostream>
+using namespace std;
+class node{
+    public:
+    int key;
+    int data;
+    node* next;
+    node(){
+        key=0;
+        data=0;
+        next=NULL;
+    }
+    node(int k,int d){
+        key=k;
+        data=d;
+    }
+
+};
+class cirlin{
+    public:
+    node* head;
+    cirlin(){
+        head=NULL;
+    }
+    //1.check if the node exist in the list
+    node* checkn(int k){
+        node* temp=NULL;
+        node* ptr=head;
+        if(ptr==NULL){
+            return temp;
+
+        }else{
+            do{
+                if(ptr->key==k){
+                    temp=ptr;
+
+                }ptr=ptr->next;
+            }while(ptr!=head);
+            return temp;
+        }
+    }
+    //2.append
+    void appendn(node* n){
+        if(checkn(n->key)!=NULL){
+            cout<<"the node with the which you entered already exist in the list"<<endl;
+        }else{
+            if(head==NULL){
+                head=n;
+                n->next=head;
+                cout<<"npde got appended"<<endl;
+            }else{
+                node* ptr=head;
+                while(ptr->next!=head){
+                    ptr=ptr->next;
+
+                }ptr->next=n;
+                n->next=head;
+                cout<<"the node got appended"<<endl;
+
+            }
+        }
+    }
+    //3.prepend the node
+    void prependn(node* n){
+        if(checkn(n->key)!=NULL){
+            cout<<"the node already exist with key which you have enterd"<<endl;
+
+        }else{
+            if(head==NULL){
+                head=n;
+                n->next=head;
+                cout<<"npde got appended"<<endl;
+            }else{
+                node* ptr=head;
+                while(ptr->next!=head){
+                    ptr=ptr->next;
+                }
+                ptr->next=n;
+                n->next=head;
+                head=n;
+                cout<<"node got added at the begining of the node"<<endl;
+
+            }
+
+        }
+    }
+    //4.insert the node after a particular node
+    void insertn(int k,node* n){
+        node* ptr= checkn(k);
+        if(ptr==NULL){
+            cout<<"no node is present with the value which you have entered"<<endl;
+
+        }else{
+            if(checkn(n->key)!=NULL){
+                cout<<"the node already exist with the key value"<<endl;
+
+            }else{
+                if(ptr->next==head){
+                    n->next=head;
+                    ptr->next=n;
+                    cout<<"node has been inserted at the end"<<endl;
+
+                }else{
+                    n->next=ptr->next;
+                    ptr->next=n;
+                    cout<<"the new node has been inserted at the misddle of two nodes"<<endl;
+
+                }
+            }
+        }
+    }
+    //5.delete the desired key
+    void deleten(int k){
+        node* ptr=checkn(k);
+        if(ptr==NULL){
+            cout<<"sorry you cant delete because there is no node with the key which you have enterd in the function"<<endl;
+
+        }else{
+            if(ptr==head){
+                if(head->next==head){
+                    head=NULL;
+                    cout<<"the head is unlinked now"<<endl;
+                }
+                else{
+                    node* ptr=head;
+                    while(ptr->next!=head){
+                        ptr=ptr->next;
+                    }
+                    ptr->next=head->next;
+                    head=head->next;
+                    cout<<"node has been unlinked with the key value"<<endl;
+                }
+            }
+            else{
+                node* temp = NULL;
+                node* prevp =head;
+                node* curr=head->next;
+                while(curr!=NULL){
+                    if(curr->key==k){
+                        temp=curr;
+                        curr=NULL;
+                    }else{
+                        prevp=prevp->next;
+                        curr=curr->next;
+                    }
+                }
+                prevp->next=temp->next;
+                cout<<"node has been unlinked "<<endl;
+     
+            }
+           
+        }
+    }
+    //6.update node
+    void updaten(int k,int d){
+        node* ptr=checkn(k);
+        if(ptr!=NULL){
+            ptr->data=d;
+            cout<<"node data is updated now "<<endl;
+
+        }else{
+            cout<<"the node doesnt exist in the list"<<endl;
+        }
+    }
+    //7. printing 
+    void printn(){
+        if(head==NULL){
+            cout<<"no node is presrnt in the list"<<endl;
+
+        }else{
+            cout<<"head adress"<<endl;
+            cout<<"single linked"<<endl;
+            node* temp = head;
+            do{
+                cout<<"("<<temp->key<<","<<temp->data<<","<<temp->next<<")-->"<<endl;
+                temp=temp->next;
+
+            }while(temp!=head);
+            
+        }
+    }
+};
+int main(){
+    cirlin obj;
+    int option;
+    int key1,k1,data1;
+    do{
+        cout<<"select the work you need to perform "<<endl;
+        cout<<"1.append"<<endl;
+        cout<<"2.prepend"<<endl;
+        cout<<"3.insert"<<endl;
+        cout<<"4.delete"<<endl;
+        cout<<"5.update"<<endl;
+        cout<<"6.print"<<endl;
+        cin>>option;
+        node* n1= new node();
+        switch(option){
+            case 0:
+            break;
+            case 1:
+            cout<<"append so now enter the key and the data"<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            obj.appendn(n1);
+            break;
+            case 2:
+            cout<<"prepend"<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            obj.prependn(n1);
+            break;
+            case 3:
+            cout<<"insert the node in between"<<endl;
+            cin>>k1;
+            cout<<"now enter the data and the key which you need to add"<<endl;
+            cin>>key1;
+            cin>>data1;
+            n1->key=key1;
+            n1->data=data1;
+            obj.insertn(k1,n1);
+            break;
+            case 4:
+            cout<<"delete the node by using the key of that node"<<endl;
+            cin>>k1;
+            obj.deleten(k1);
+            break;
+            case 5:
+            cout<<"update the node by the key "<<endl;
+            cin>>key1;
+            cin>>data1;
+            obj.updaten(key1,data1);
+            break;
+            case 6:
+            obj.printn();
+            break;
+            default:
+            cout<<"enter the proper number "<<endl;
+
+
+
+        }
+    }while(option!=0);    
+    return 0;
+}
