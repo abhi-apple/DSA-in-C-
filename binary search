@@ -15,6 +15,7 @@ int binarys(int arr[],int left,int right,int x){
 
 }
 int main(){
+    cout<<"HELLO YOU ARE LOOKING AT THE CODE WRITTEN BY ABHINAY"<<endl<<endl;
     int num;
     int marr[10];
     int output;
