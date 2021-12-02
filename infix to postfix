@@ -1,0 +1,104 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+bool isop(char c)
+{
+    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^')
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+int pres(char c)
+{
+    if (c == '^')
+    {
+        return 3;
+    }
+    else if (c == '*' || c == '/')
+    {
+        return 2;
+    }
+    else if (c == '+' || c == '-')
+    {
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
+}
+string intopo(stack<char> s, string infix)
+{
+    string postfix;
+    for (int i = 0; i < infix.length(); i++)
+    {
+        if ((infix[i] >= 'a' && infix[i] <= 'z') || (infix[i] >= 'A' && infix[i] <= 'z'))
+        {
+            postfix += infix[i];
+        }
+        else if (infix[i] == '(')
+        {
+            s.push(infix[i]);
+        }
+        else if (infix[i] == ')')
+        {
+            while (s.top() != '(' && (!s.empty()))
+            {
+                char temp = s.top();
+                postfix += temp;
+                s.pop();
+            }
+        }
+        else if (isop(infix[i]))
+        {
+            if (s.empty())
+            {
+                s.push(infix[i]);
+            }
+            else
+            {
+                if (pres(infix[i]) > pres(s.top()))
+                {
+                    s.push(infix[i]);
+                }
+                else if ((pres(infix[i]) == pres(s.top())) && (infix[i] == '^'))
+                {
+                    s.push(infix[i]);
+                }
+                else
+                {
+                    while ((!s.empty()) && (pres(infix[i]) <= pres(s.top())))
+                    {
+                        char temp = s.top();
+                        postfix = temp;
+                        s.top();
+                    }
+                    s.push(infix[i]);
+                }
+            }
+        }
+    }
+    while (!s.empty())
+    {
+        postfix += s.top();
+        s.pop();
+    }
+    return postfix;
+}
+int main()
+{
+    cout<<"HELLO YOU ARE LOOKING AT THE CODE WRITTEN BY ABHINAY"<<endl<<endl;
+    string infixs, postfixs;
+    cout << "Enter a infix expression : " << endl;
+    cin >> infixs;
+    stack<char> stack;
+    cout << "INFIX EXPRESSION :" << infixs << endl;
+    postfixs = intopo(stack, infixs);
+    cout << endl
+         << "POSTFIX EXPRESSION" << postfixs;
+    return 0;
+}
