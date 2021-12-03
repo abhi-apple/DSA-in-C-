@@ -1,0 +1,39 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+bool isop(char c){
+    if((c >='a' && c<='z')||(c >='A' && c <='Z')){
+        return true;
+    }else {
+        return false;
+    }
+}
+string pretoin(string pref){
+    stack<string> s;
+    for(int i=pref.length()-1;i>=0;i--){
+        if(isop(pref[i])){
+            string op(1,pref[i]);
+            s.push(op);
+        }else {
+            string op1=s.top();
+            s.pop();
+            string op2=s.top();
+            s.pop();
+            s.push("(" + op1+ pref[i]+op2+ ")");
+        }
+    }
+    return s.top();
+}
+int main()
+{
+    cout<<"CODE WRITTEN BY ABHINAY "<<endl;
+    string infix, prefix;
+    cout << "Enter the prefix expression :" << endl;
+    cin >> prefix;
+
+    cout << "PREFIX EXPRESSION : " << prefix << endl;
+    infix = pretoin( prefix);
+    cout << endl
+         << "INFIX EXPRESSION : " << infix;
+    return 0;
+}
