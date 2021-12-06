@@ -1,0 +1,196 @@
+#include <iostream>
+using namespace std;
+class node
+{
+public:
+    int key;
+    int data;
+    node *next;
+    node()
+    {
+        key = 0;
+        data = 0;
+        next = NULL;
+    }
+    node(int k, int d)
+    {
+        key = k;
+        data = d;
+    }
+};
+class stack
+{
+public:
+    node *top;
+    stack()
+    {
+        top = NULL;
+    }
+    bool isemp()
+    {
+        if (top == NULL)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    bool check(node *n)
+    {
+        node *temp = top;
+        bool exist = false;
+        while (temp != NULL)
+        {
+            if (temp->key == n->key)
+            {
+                exist = true;
+                break;
+            }
+            temp = temp->next;
+        }
+        return exist;
+    }
+    void push(node *n)
+    {
+        if (top == NULL)
+        {
+            top = n;
+        }
+        else if (check(n)==true)
+        {
+            cout << "node is already present in the list so find a new one" << endl;
+        }
+        else
+        {
+            node *temp = top;
+            top = n;
+            n->next = temp;
+        }
+    }
+    node *pop()
+    {
+        node *temp = NULL;
+        if (isemp())
+        {
+            cout << "stack underflow" << endl;
+            return temp;
+        }
+        else
+        {
+            temp = top;
+            top = top->next;
+            return temp;
+        }
+    }
+    node *peek()
+    {
+        node *temp = NULL;
+        if (isemp())
+        {
+            cout << "stack overflow" << endl;
+            return temp;
+        }
+        else
+        {
+            return top;
+        }
+    }
+    int count()
+    {
+        int count = 0;
+        node *temp = top;
+        while (temp != NULL)
+        {
+            count++;
+            temp = temp->next;
+        }
+        return count;
+    }
+    void dispaly()
+    {
+        cout << "All values in the stack are : " << endl;
+        node *temp = top;
+        while (temp != NULL)
+        {
+            cout << "(" << temp->key << "," << temp->data << ")"
+                 << "->" << endl;
+            temp = temp->next;
+        }
+        cout << "The total no of the nodes in the stack :" << count() << endl;
+        cout << endl;
+    }
+};
+int main()
+{
+    stack s1;
+    int option, key, data;
+    do
+    {
+        cout << "what operation do you want to perform now " << endl;
+        cout << "1.push" << endl;
+
+        cout << "pop" << endl;
+        cout << "is empty" << endl;
+        cout << "4.peek" << endl;
+        cout << "5.count" << endl;
+        cout << "6.display" << endl;
+        cin >> option;
+        node *n1 = new node();
+        switch (option)
+        {
+        case 0:
+            break;
+        case 1:
+            cout << "Enter the key value and the node to push into the stack" << endl;
+            cin >> key;
+            cin >> data;
+            n1->key = key;
+            n1->data = data;
+            s1.push(n1);
+            break;
+        case 2:
+            cout << "pop function is called now " << endl;
+            n1 = s1.pop();
+            cout << "The top of the stack is : (" << n1->key << "," << n1->data << ")" << endl;
+            delete n1;
+            break;
+        case 3:
+            if (s1.isemp())
+            {
+                cout << "stack overflow" << endl;
+            }
+            else
+            {
+                cout << "stack is not empty " << endl;
+            }
+            break;
+        case 4:
+            if (s1.isemp())
+            {
+                cout << "stack is empty" << endl;
+            }
+            else
+            {
+                cout << "Peek function is called now " << endl;
+                n1 = s1.peek();
+                cout << "the top of the stack is (" << n1->key << "," << n1->data << ")" << endl;
+            }
+            break;
+        case 5:
+            cout << "count function is called " << endl;
+            cout << "no of nodes in the stack :" << s1.count() << endl;
+            break;
+        case 6:
+            cout << "display function called " << endl;
+            s1.dispaly();
+            cout << endl;
+            break;
+        default:
+            cout << "Enter the proper number " << endl;
+        }
+    } while (option != 0);
+
+    return 0;
+}
