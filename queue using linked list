@@ -1,0 +1,165 @@
+#include<iostream>
+using namespace std;
+class node{
+    public:
+    int key;
+    int data;
+    node * next;
+    node(){
+        key=0;
+        data=0;
+        next=NULL;
+    }
+    node(int k, int d){
+        key=k;
+        data=d;
+        next=NULL;
+    }
+};
+class que{
+    public:
+    node* front;
+    node* rear;
+    que(){
+        front=NULL;
+        rear=NULL;
+
+    }
+    bool isemp(){
+        if(front==NULL&& rear==NULL){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    bool check(node* n){
+        node* temp = front;
+        bool exist=false;
+        while(temp!=NULL){
+            if(temp->key==n->key){
+                exist=true;
+                break;
+            }
+            temp=temp->next;
+        }
+        return exist;
+    }
+    void enque(node * n){
+        if(isemp()){
+            front=n;
+            rear=n;
+            cout<<"node enqued correctly"<<endl;
+
+        }else if(check(n)){
+            cout<<"node is already with this key value "<<" enter the another key value "<<endl;
+        }else{
+            rear->next=n;
+            rear=n;
+            cout<<"node enqued perfectly"<<endl;
+        }
+
+    }
+    node* deque(){
+        node *temp=NULL;
+        if(isemp()){
+            cout<<"que is empty "<<endl;
+            return NULL;
+        }else{
+            if(front==rear){
+                temp=front;
+                front=NULL;
+                rear=NULL;
+                return temp;
+
+            }
+            else{
+                temp=front;
+                front=front->next;
+                return temp;
+            }
+        }
+    }
+    int count(){
+        int count =0;
+        node* temp=front;
+        while(temp!=NULL)
+        {
+            count++;
+            temp=temp->next;
+        }
+        return count;
+        
+    }
+    void display(){
+        if(isemp()){
+            cout<<"que is empty "<<endl;
+        }
+        else{
+            cout<<"All vlaues of the que are "<<endl;
+            node *temp=front;
+            while(temp!=NULL){
+                cout<<"("<<temp->key<<","<<temp->data<<")"<<"->>";
+                temp=temp->next;
+            }
+            cout<<endl;
+        }
+    }
+
+};
+int main(){
+    que q;
+    int option,key,data;
+    do{
+        cout<<"what operation do you want to do "<<endl;
+        cout<<"1.enque"<<endl;
+        cout<<"2.deque"<<endl;
+        cout<<"3.isempty"<<endl;
+        cout<<"4.count"<<endl;
+        cout<<"5.dispaly"<<endl;
+        cin>>option;
+        node* n1=new node();
+        switch(option){
+            case 0:
+            break;
+            case 1:
+            cout<<"enque function is called "<<endl;
+            cout<<"enter the key and the value of the node to enque "<<endl;
+            cin>>key;
+            cin>>data;
+            n1->key=key;
+            n1->data=data;
+            q.enque(n1);
+            break;
+            case 2:
+            cout<<"deque function is called now "<<endl;
+            n1=q.deque();
+
+            cout<<"dequed value is ("<<n1->key<<","<<n1->data<<")";
+            delete n1;
+            cout<<endl;
+            break;
+            case 3:
+            cout<<"is empty function is calleed now "<<endl;
+            if(q.isemp()){
+                cout<<"que is empty "<<endl;
+            }else{
+                cout<<"que is not empty "<<endl;
+
+            }break;
+            case 4:
+            cout<<"count function is called "<<endl;
+            cout<<"no of nodes in the que are "<<q.count()<<endl;
+            break;
+            case 5:
+            cout<<"display function is called now "<<endl;
+            q.display();
+            cout<<endl;
+            break;
+            default:
+            cout<<"Enter the proper option number "<<endl;
+
+        }
+    }
+    while(option!=0);
+    return 0;
+}
