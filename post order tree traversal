@@ -1,0 +1,149 @@
+#include <iostream>
+using namespace std;
+class treen
+{
+public:
+    int value; // key
+    treen *left;
+    treen *right;
+
+    treen()
+    {
+        value = 0;
+        left = NULL;
+        right = NULL;
+    }
+    treen(int v)
+    {
+        value = v;
+        left = NULL;
+        right = NULL;
+    }
+};
+class bst
+{
+public:
+    treen *root;
+    bst(){
+        root=NULL;
+    }
+    bool isem()
+    {
+        if (root == NULL)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    void insert(treen *n)
+    {
+        if (root == NULL)
+        {
+            root = n;
+            cout << "value has been inserted into the tree node" << endl;
+        }
+        else
+        {
+            treen *temp = root;
+            while (temp != NULL)
+            {
+                if (n->value == temp->value)
+                {
+                    cout << "value already presnt in the tree so enter another value now " << endl;
+                    // doubtfull spot
+                    return;
+                }
+                else if ((n->value < temp->value) && (temp->left == NULL))
+                {
+                    temp->left = n;
+                    cout << "Value has been inserted into the left tree " << endl;
+                    break;
+                }
+                else if (n->value < temp->value)
+                {
+                    temp = temp->left;
+                }
+                else if ((n->value > temp->value) && (temp->right == NULL))
+                {
+                    temp->right = n;
+                    cout << "value has been inserted to the right of the node " << endl;
+                    break;
+                }
+                else
+                {
+                    temp = temp->right;
+                }
+            }
+        }
+    }
+
+    void printpre(treen* n){
+        if(n==NULL){
+            return;
+        }
+        cout<<n->value<<" ";
+
+        printpre(n->left);
+        printpre(n->right);
+        
+    }
+    //void printin(treen* n){
+    //    if(n==NULL){
+    //        return;
+    //    }
+    //    printin(n->left);
+    //    cout<<n->value<<" ";
+    //    printin(n->right);
+    //}
+};
+int main()
+{
+    bst obj;
+    int option, val;
+
+    do
+    {
+        cout << "Which operation do you want to perform " << endl;
+        cout << "1.insert node " << endl;
+        cout << "2.search node " << endl;
+        cout << "3.delete node " << endl;
+        cout << "4.print BST values " << endl;
+        cout << "0.Exit the program " << endl;
+        cin >> option;
+        treen *n1 = new treen();
+        switch (option)
+        {
+        case 0:
+            break;
+        case 1:
+            cout << "INSert " << endl;
+            cout << "ENter the value of the node " << endl;
+            cin >> val;
+            n1->value = val;
+            obj.insert(n1);
+            cout << endl;
+            break;
+        case 2:
+            cout << "search " << endl;
+            break;
+        case 3:
+            cout << "delete " << endl;
+            break;
+        case 4:
+            cout << "print and traverse " << endl;
+            
+            obj.printpre(obj.root);
+            cout<<endl;
+            //obj.printin(obj.root);
+            cout<<endl;
+            break;
+        default:
+            cout << "Enter the proper option number " << endl;
+        }
+
+    } while (option != 0);
+    return 0;
+}
