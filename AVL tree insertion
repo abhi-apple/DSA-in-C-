@@ -1,0 +1,374 @@
+#include <iostream>
+#define global 5
+using namespace std;
+class treen
+{
+public:
+    int value; // key
+    treen *left;
+    treen *right;
+
+    treen()
+    {
+        value = 0;
+        left = NULL;
+        right = NULL;
+    }
+    treen(int v)
+    {
+        value = v;
+        left = NULL;
+        right = NULL;
+    }
+};
+class bst
+{
+public:
+    treen *root;
+    bst()
+    {
+        root = NULL;
+    }
+    bool isem()
+    {
+        if (root == NULL)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    void insert(treen *n)
+    {
+        if (root == NULL)
+        {
+            root = n;
+            cout << "value has been inserted into the tree node" << endl;
+        }
+        else
+        {
+            treen *temp = root;
+            while (temp != NULL)
+            {
+                if (n->value == temp->value)
+                {
+                    cout << "value already presnt in the tree so enter another value now " << endl;
+                    // doubtfull spot
+                    break;
+                }
+                else if ((n->value < temp->value) && (temp->left == NULL))
+                {
+                    temp->left = n;
+                    cout << "Value has been inserted into the left tree " << endl;
+                    break;
+                }
+                else if (n->value < temp->value)
+                {
+                    temp = temp->left;
+                }
+                else if ((n->value > temp->value) && (temp->right == NULL))
+                {
+                    temp->right = n;
+                    cout << "value has been inserted to the right of the node " << endl;
+                    break;
+                }
+                else
+                {
+                    temp = temp->right;
+                }
+            }
+        }
+    }
+    treen* inrec(treen* r,treen* ne){
+        if(r==NULL){
+            r=ne;
+            return r;
+        }
+        if(ne->value<r->value){
+            r->left=inrec(r->left,ne);
+        }else if(ne->value>r->value){
+            r->right=inrec(r->right,ne);
+        }else{
+            cout<<"No duplicate values are allowed so please enter the different value "<<endl;
+            return r;
+        }
+        return r;
+    }
+    int height(treen *r)
+    {
+        if (r == NULL)
+        {
+            return -1;
+        }
+        else
+        {
+            int lheight = height(r->left);
+            int rheight = height(r->right);
+            if (lheight > rheight)
+            {
+                return (lheight + 1);
+            }
+            else
+            {
+                return (rheight + 1);
+            }
+        }
+    }
+    int getbal(treen* n){
+        if(n==NULL){
+            return -1;
+        }else{
+            return(height(n->left)-height(n->right));
+        }
+    }
+    treen* ri(treen* y){
+        treen* x=y->left;
+        treen* t=x->right;
+        x->right=y;
+        y->left=t;
+        return x;
+    }
+    treen* le(treen* n){
+        treen* x=n->right;
+        treen* t=x->left;
+        x->left=n;
+        n->right=t;
+        return x;
+    }
+    treen* avl(treen* r,treen* ne){
+        if(r==NULL){
+            r=ne;
+            return r;
+        }
+        if(ne->value<r->value){
+            r->left=avl(r->left,ne);
+        }else if(ne->value>r->value){
+            r->right=avl(r->right,ne);
+        }else{
+            cout<<"No duplicate values are allowed so please enter the different value "<<endl;
+            return r;
+        }
+        int bf=getbal(r);
+        if(bf>1 && ne->value<r->left->value){
+            return ri(r);
+        }else if(bf<-1 && ne->value>r->right->value){
+            return le(r);
+        }else if(bf>1 && ne->value>r->left->value){
+            r->left=le(r->left);
+            return ri(r);
+        }else if(bf<-1 && ne->value<r->right->value){
+            r->right=ri(r->right);
+            return le(r);
+        }
+        return r;
+    }
+
+    treen *searchi(int val)
+    {
+        if (root == NULL)
+        {
+            return root;
+        }
+        else
+        {
+            treen *temp = root;
+            while (temp != NULL)
+            {
+                if (val == temp->value)
+                {
+                    return temp;
+                }
+                else if (val < temp->value)
+                {
+                    temp = temp->left;
+                }
+                else
+                {
+                    temp = temp->right;
+                }
+            }
+        }
+        return NULL;
+    }
+    void printgl(treen* r,int level){
+        if(r==NULL){
+            return;
+
+        }else if(level==0){
+            cout<<r->value<<endl;
+        }else{
+            printgl(r->left,level-1);
+            printgl(r->right,level-1);
+        }
+    }
+    void printbfs(treen* r){
+       int h=height(r);
+        for(int i=0;i<=h;i++){
+            printgl(r,i);
+        }
+    }
+    void print2(treen *r, int space)
+    {
+        if (r == NULL)
+        {
+            return;
+        }
+        space += global;
+        print2(r->right, space);
+        cout << endl;
+        for (int i = space; i < space; i++)
+        {
+            cout << " ";
+        }
+        cout << r->value << "\n";
+        print2(r->left, space);
+    }
+
+    void printpre(treen *n)
+    {
+        if (n == NULL)
+        {
+            return;
+        }
+        cout << n->value << " ";
+
+        printpre(n->left);
+        printpre(n->right);
+    }
+    void printin(treen *n)
+    {
+        if (n == NULL)
+        {
+            return;
+        }
+        printin(n->left);
+        cout << n->value << " ";
+        printin(n->right);
+    }
+    void printpo(treen *n)
+    {
+        if (n == NULL)
+        {
+            return;
+        }
+        printpo(n->left);
+        printpo(n->right);
+        cout << n->value << " ";
+    }
+    treen* minv(treen* node){
+        treen* current=node;
+        while(current->left!=NULL){
+            current=current->left;
+        }
+        return current;
+    }
+    treen* dele(treen* r,int v){
+        if(r==NULL){
+            return 0;
+        }else if(v<r->value){
+            r->left=dele(r->left,v);
+        }else if(v>r->value){
+            r->right=dele(r->right,v);
+        }else{
+            if(r->left==NULL){
+                treen* temp=r->right;
+                delete r;
+                return temp;
+            }
+            else if(r->right==NULL){
+                treen* temp=r->left;
+                delete r;
+                return temp;
+            }else{
+                treen* temp=minv(r->right);
+                r->value=temp->value;
+                r->right=dele(r->right,temp->value);
+            }
+        }
+        return r;
+    }
+    
+};
+int main()
+{
+    bst obj;
+    int option, val;
+
+    do
+    {
+        cout << "Which operation do you want to perform " << endl;
+        cout << "1.insert node " << endl;
+        cout << "2.search node " << endl;
+        cout << "3.delete node " << endl;
+        cout << "4.print BST values " << endl;
+        cout << "5.the height if the tree " << endl;
+        cout << "0.Exit the program " << endl;
+        cin >> option;
+        treen *n1 = new treen();
+        switch (option)
+        {
+        case 0:
+            break;
+        case 1:
+            cout << "INSert " << endl;
+            cout << "enter the value into the avl tree  " << endl;
+            cin >> val;
+            n1->value = val;
+            obj.root=obj.avl(obj.root,n1);
+            //obj.insert(n1);
+            cout << endl;
+            break;
+        case 2:
+            cout << "search " << endl;
+            cout << "Enter the value of the key node in order to search in the node" << endl;
+            cin >> val;
+            n1 = obj.searchi(val);
+            if (n1 != NULL)
+            {
+                cout << "value has been found in the node " << endl;
+            }
+            else
+            {
+                cout << "value has been not found in the node " << endl;
+            }
+            break;
+        case 3:
+            cout << "delete " << endl;
+            cout<<"Enter the value which you ant to delete from the node "<<endl;
+            cin>>val;
+            n1=obj.searchi(val);
+            if(n1 !=NULL){
+                obj.dele(obj.root,val);
+            }else{
+                cout<<"the node you want to delete is not present in the node "<<endl;
+            }
+
+            break;
+        case 4:
+            cout << "print and traverse " << endl;
+            //obj.print2(obj.root, 5);
+            //cout << endl;
+            obj.printpre(obj.root);
+            cout << endl;
+            obj.printin(obj.root);
+            cout << endl;
+            obj.printpo(obj.root);
+            cout << endl;
+            obj.printbfs(obj.root);
+            break;
+        case 5:
+            cout << "lets find the height of the tree " << endl;
+
+            cout << "Height of the tree is : " << obj.height(obj.root) << endl;
+        default:
+            cout << "Enter the proper option number " << endl;
+            cout << obj.root << endl;
+        }
+
+    } while (option != 0);
+    //cout << obj.root << endl;
+
+    return 0;
+}
